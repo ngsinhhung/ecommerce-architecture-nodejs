@@ -1,0 +1,29 @@
+{
+  "name": "ecommerce-architecture-nodejs",
+  "version": "1.0.0",
+  "description": "ecommerce-architecture-nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ngsinhhung/ecommerce-architecture-nodejs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ngsinhhung/ecommerce-architecture-nodejs/issues"
+  },
+  "homepage": "https://github.com/ngsinhhung/ecommerce-architecture-nodejs#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "compression": "^1.8.0",
+    "helmet": "^8.1.0",
+    "morgan": "^1.10.0"
+  }
+}
