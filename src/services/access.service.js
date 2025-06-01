@@ -1,7 +1,7 @@
 'use strict'
 
 const shopModel = require("../models/shop.model");
-const crypto = require('crypto');
+const crypto = require('node:crypto');
 const bcrypt = require('bcrypt');
 const keyTokenService = require("./keyToken.service");
 const createTokenPair = require("../auth/auth");
@@ -32,37 +32,40 @@ class AccessService {
             })
 
             if (newShop){
-                const {privateKey, publicKey} = crypto.generateKeyPairSync('rsa', {
-                    modulusLength: 4096,
-                    publicKeyEncoding: {
-                        type: 'pkcs1',
-                        format: 'pem'
-                    },
-                    privateKeyEncoding: {
-                        type: 'pkcs1',
-                        format: 'pem'
-                    }
-                })
+                // const {privateKey, publicKey} = crypto.generateKeyPairSync('rsa', {
+                //     modulusLength: 4096,
+                //     publicKeyEncoding: {
+                //         type: 'pkcs1',
+                //         format: 'pem'
+                //     },
+                //     privateKeyEncoding: {
+                //         type: 'pkcs1',
+                //         format: 'pem'
+                //     }
+                // })
 
-                const publicKeyString = await keyTokenService.createKeyToken({
+                const privateKey = crypto.randomBytes(64).toString('hex')
+                const publicKey = crypto.randomBytes(64).toString('hex')
+
+                const key = await keyTokenService.createKeyToken({
                     userId: newShop._id,
-                    publicKey: publicKey
+                    publicKey,
+                    privateKey
                 })
 
-                if(!publicKeyString) {
+                if(!key) {
                     return {
                         'message': 'Error while create public key'
                     }
                 }
                 
-                const publicKeyObject = crypto.createPublicKey(publicKeyString)
                 //create token pair
                 const token = await createTokenPair(
                     {
                         userId: newShop._id,
                         email
                     },
-                    publicKeyObject,
+                    publicKey,
                     privateKey
                 )
 

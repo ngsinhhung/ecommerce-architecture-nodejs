@@ -5,14 +5,12 @@ const jsonwebtoken = require('jsonwebtoken');
 const createTokenPair = async ( payload, publicKey, privateKey ) => {
     try {
         //access token
-        const accessToken = jsonwebtoken.sign(payload, privateKey, {
-            algorithm: 'RS256',
+        const accessToken = jsonwebtoken.sign(payload, publicKey, {
             expiresIn: '2 days'
         })
 
         //refreshToken
         const refreshToken = jsonwebtoken.sign(payload, privateKey, {
-            algorithm: 'RS256',
             expiresIn: '7 days'
         })
 
