@@ -3,7 +3,7 @@
 const { default: mongoose } = require("mongoose")
 const os = require('os')
 const process = require('process')
-const _SECOND = 5000
+const _SECOND = 50000
 
 //count connect
 const countConnect = () => {
