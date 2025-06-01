@@ -16,9 +16,7 @@ const RolesShop = {
 class AccessService {
 
     static signUp = async ({ name, email, password }) => {
-        try {
-            console.log({ name, email, password });
-            
+        try {            
             const shopHolder = await shopModel.findOne({email}).lean()
             if(shopHolder){
                 return {
