@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const keyTokenService = require("./keyToken.service");
 const createTokenPair = require("../auth/auth");
 const { getInforShop } = require("../utils");
+const { BadRequestError } = require("../core/error.response");
 
 const RolesShop = {
     WRITEN: 'WRITEN',
@@ -16,12 +17,10 @@ const RolesShop = {
 class AccessService {
 
     static signUp = async ({ name, email, password }) => {
-        try {            
+        // try {            
             const shopHolder = await shopModel.findOne({email}).lean()
             if(shopHolder){
-                return {
-                    'message': 'Shop already exits'
-                }
+                throw new BadRequestError('Error: Shop already exits')
             }
             
             const passwordHash = await bcrypt.hash(password, 10)
@@ -52,9 +51,10 @@ class AccessService {
                 })
 
                 if(!key) {
-                    return {
-                        'message': 'Error while create public key'
-                    }
+                    throw new BadRequestError('Error: Error while create public key')
+                    // return {
+                    //     'message': 'Error while create public key'
+                    // }
                 }
                 
                 //create token pair
@@ -68,7 +68,7 @@ class AccessService {
                 )
 
                 return {
-                    'status': 'created successfully',
+                    'status': 'Created Successfully',
                     'metadata': {
                         shop: getInforShop(['_id', 'name', 'email', 'verify', 'status', 'createdAt'], newShop),
                         tokens: token
@@ -76,18 +76,14 @@ class AccessService {
                 }
             }
 
-            return {
-                'status': 'created failure',
-                'metadata': null
-            }
-
+                return InternalServerError('Error: shop sign up error')
             
-        } catch (error) {
-            return {
-                'status': 'error',
-                'message': error.message
-            }
-        }
+        // } catch (error) {
+        //     return {
+        //         'status': 'error',
+        //         'message': error.message
+        //     }
+        // }
     }
 }
 
