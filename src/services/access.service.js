@@ -51,7 +51,7 @@ class AccessService {
                 })
 
                 if(!key) {
-                    throw new BadRequestError('Error: error while create public key')
+                    throw new BadRequestError('Error: Error while create public key')
                     // return {
                     //     'message': 'Error while create public key'
                     // }
@@ -68,7 +68,7 @@ class AccessService {
                 )
 
                 return {
-                    'status': 'created successfully',
+                    'status': 'Created Successfully',
                     'metadata': {
                         shop: getInforShop(['_id', 'name', 'email', 'verify', 'status', 'createdAt'], newShop),
                         tokens: token
