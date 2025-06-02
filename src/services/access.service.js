@@ -5,8 +5,9 @@ const crypto = require('node:crypto');
 const bcrypt = require('bcrypt');
 const keyTokenService = require("./keyToken.service");
 const createTokenPair = require("../auth/auth");
-const { getInforShop } = require("../utils");
-const { BadRequestError } = require("../core/error.response");
+const { getInforShop, generatePairKey } = require("../utils");
+const { BadRequestError, UnauthorizedError } = require("../core/error.response");
+const shopService = require("./shop.service");
 
 const RolesShop = {
     WRITEN: 'WRITEN',
@@ -15,6 +16,41 @@ const RolesShop = {
 }
 
 class AccessService {
+
+    static logIn = async ({email, password}) => {
+        const shop = await shopService.findByEmail(email)
+        if(!shop) {
+            throw new UnauthorizedError("Error: Email or Password is invalid")
+        }
+        
+        const validPassword = bcrypt.compare(password, shop.password)
+        if(!validPassword){
+            throw new UnauthorizedError("Error: Email or Password is invalid")
+        }
+        
+        const {privateKey, publicKey} = generatePairKey()
+
+        const token = await createTokenPair(
+            {
+                userId: shop._id,
+                email
+            },
+            publicKey,
+            privateKey
+        )
+
+        await keyTokenService.createKeyToken({
+            userId: shop._id,
+            publicKey,
+            privateKey,
+            refreshToken: token.refreshToken
+        })
+
+        return {
+            shop: getInforShop(['_id', 'name', 'email', 'verify', 'status', 'createdAt'], shop),
+            tokens: token
+        }
+    }
 
     static signUp = async ({ name, email, password }) => {
         // try {            

@@ -2,10 +2,20 @@
 ### signup
 POST {{url_dev}}/shop/signup
 Content-Type: application/json
-x-api-key: 9672b0b9edfaf39a47c1ff0a982a0aa66aa24c998d0e8027711023dd4e33ff881f96afc2f00c0bfe59b9674d275fbded9eb59a4ac36bcdb1687b87157a607faf
+x-api-key: df0fa8e478e8149581b2994fd3f717422dbb7a8f1d578afd233a506f8fd02f90306a7946f3c4abb2089889c081326d05a848caf9f495286aca11ff4aea2479fa
 
 {
     "name": "Shop Hung",
-    "email": "abcJ99@gmail.com",
+    "email": "abcJ1@gmail.com",
+    "password": "abc123"
+}
+
+###login
+POST {{url_dev}}/shop/login
+Content-Type: application/json
+x-api-key: df0fa8e478e8149581b2994fd3f717422dbb7a8f1d578afd233a506f8fd02f90306a7946f3c4abb2089889c081326d05a848caf9f495286aca11ff4aea2479fa
+
+{
+    "email": "abcJ1@gmail.com",
     "password": "abc123"
 }
