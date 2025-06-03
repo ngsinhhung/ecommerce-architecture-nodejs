@@ -37,13 +37,13 @@ const createTokenPair = async ( payload, publicKey, privateKey ) => {
     }
 }
 
-const authentication = asyncHandler((req, res, next) => {
+const authentication = asyncHandler( async (req, res, next) => {
     const userId = req.headers[HEADER.CLIENT_ID]?.toString()
     if (!userId){
         throw new UnauthorizedError("Error: Invalid Request")
     }
 
-    const keyStore = keyTokenService.findKeyTokenByUserId(userId)
+    const keyStore = await keyTokenService.findKeyTokenByUserId(userId)
     if(!keyStore) {
         throw new NotFoundError()
     }
@@ -56,7 +56,7 @@ const authentication = asyncHandler((req, res, next) => {
     try {
         const decodeUser = jsonwebtoken.decode(accessToken, keyStore.publicKey)
         if(userId !== decodeUser.userId) {
-            throw new UnauthorizedError("Error:  Invalid User")
+            throw new UnauthorizedError("Error: Invalid User")
         }
         req.keyStore = keyStore
         return next()

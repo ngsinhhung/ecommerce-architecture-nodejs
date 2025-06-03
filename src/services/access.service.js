@@ -17,6 +17,10 @@ const RolesShop = {
 
 class AccessService {
 
+    static logOut = async ( keyStore ) => {
+        return await keyTokenService.removeKeyTokenById(keyStore._id)
+    }
+
     static logIn = async ({email, password}) => {
         const shop = await shopService.findByEmail(email)
         if(!shop) {
