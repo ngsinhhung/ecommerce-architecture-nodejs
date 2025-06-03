@@ -54,7 +54,7 @@ const authentication = asyncHandler( async (req, res, next) => {
     }
 
     try {
-        const decodeUser = jsonwebtoken.decode(accessToken, keyStore.publicKey)
+        const decodeUser = jsonwebtoken.verify(accessToken, keyStore.publicKey)
         if(userId !== decodeUser.userId) {
             throw new UnauthorizedError("Error: Invalid User")
         }
