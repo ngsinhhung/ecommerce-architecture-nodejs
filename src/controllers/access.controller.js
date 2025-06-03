@@ -7,14 +7,21 @@ class AccessController {
 
     logIn = async (req, res, next) => {
         new OKSuccessResponse({
-            message: 'Login Complete',
+            message: 'Login Successfully',
             metadata: await accessService.logIn(req.body)
+        }).send(res)
+    }
+
+    logOut = async (req, res, next) => {
+        new OKSuccessResponse({
+            message: 'Logout Successfully',
+            metadata: await accessService.logOut(req.keyStore)
         }).send(res)
     }
 
     signUp = async (req, res, next) => {
         new CreatedSuccessResponse({
-            message: 'Register complete',
+            message: 'Register Successfully',
             metadata: await accessService.signUp(req.body)
         }).send(res)
     }

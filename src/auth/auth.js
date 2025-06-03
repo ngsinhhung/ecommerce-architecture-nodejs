@@ -1,6 +1,15 @@
 'use strict'
 
 const jsonwebtoken = require('jsonwebtoken');
+const asyncHandler = require('../helpers/asyncHandler');
+const { UnauthorizedError, NotFoundError } = require('../core/error.response');
+const keyTokenService = require('../services/keyToken.service');
+
+const HEADER = {
+    API_KEY: 'x-api-key',
+    CLIENT_ID: 'x-client-id',
+    AUTHORIZATION: 'authorization' 
+}
 
 const createTokenPair = async ( payload, publicKey, privateKey ) => {
     try {
@@ -28,4 +37,36 @@ const createTokenPair = async ( payload, publicKey, privateKey ) => {
     }
 }
 
-module.exports = createTokenPair
+const authentication = asyncHandler( async (req, res, next) => {
+    const userId = req.headers[HEADER.CLIENT_ID]?.toString()
+    if (!userId){
+        throw new UnauthorizedError("Error: Invalid Request")
+    }
+
+    const keyStore = await keyTokenService.findKeyTokenByUserId(userId)
+    if(!keyStore) {
+        throw new NotFoundError()
+    }
+
+    const accessToken = req.headers[HEADER.AUTHORIZATION]?.toString()
+    if(!accessToken) {
+        throw new UnauthorizedError("Error: Invalid Request")
+    }
+
+    try {
+        const decodeUser = jsonwebtoken.verify(accessToken, keyStore.publicKey)
+        if(userId !== decodeUser.userId) {
+            throw new UnauthorizedError("Error: Invalid User")
+        }
+        req.keyStore = keyStore
+        return next()
+    } catch (error) {
+        throw error
+    }
+
+})
+
+module.exports = { 
+    createTokenPair,
+    authentication,
+}

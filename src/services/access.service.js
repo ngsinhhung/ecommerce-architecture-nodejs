@@ -4,7 +4,7 @@ const shopModel = require("../models/shop.model");
 const crypto = require('node:crypto');
 const bcrypt = require('bcrypt');
 const keyTokenService = require("./keyToken.service");
-const createTokenPair = require("../auth/auth");
+const { createTokenPair } = require("../auth/auth");
 const { getInforShop, generatePairKey } = require("../utils");
 const { BadRequestError, UnauthorizedError } = require("../core/error.response");
 const shopService = require("./shop.service");
@@ -16,6 +16,10 @@ const RolesShop = {
 }
 
 class AccessService {
+
+    static logOut = async ( keyStore ) => {
+        return await keyTokenService.removeKeyTokenById(keyStore._id)
+    }
 
     static logIn = async ({email, password}) => {
         const shop = await shopService.findByEmail(email)
