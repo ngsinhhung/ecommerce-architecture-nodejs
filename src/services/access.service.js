@@ -17,26 +17,17 @@ const RolesShop = {
 
 class AccessService {
 
-    static handleRefreshToken = async ( refreshToken ) => {
-        const tokenUsed = await keyTokenService.findRefreshTokenUsed(refreshToken)
-        if(tokenUsed) {
-            const {email, userId} = await verifyJWT(refreshToken, tokenUsed.privateKey)
+    static handleRefreshToken = async ({refreshToken, user, keyStore}) => {
+        const { email, userId } = user
 
-            console.log(`Warning: ${{email, userId}}`);
-
+        if(keyStore.refreshTokensUsed.includes(refreshToken)) {
             await keyTokenService.deleteKeyTokenById(tokenUsed._id)
             throw new ForbiddenError("Something when wrong! Please login again")
         }
 
-        const keyStore = await keyTokenService.findKeyTokenByRefreshToken(refreshToken)
-        if(!keyStore) {
-            throw new UnauthorizedError("Error: User not login before")
+        if(keyStore.refreshToken !== refreshToken) {
+            throw new UnauthorizedError("Error: User must login before")
         }
-
-        const {email, userId} = await verifyJWT(refreshToken, keyStore.privateKey)
-
-        console.log('[2]--::' + {email, userId});
-        
 
         const shopUser = await shopService.findByEmail(email)
         if(!shopUser){
