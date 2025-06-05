@@ -8,7 +8,8 @@ const keyTokenService = require('../services/keyToken.service');
 const HEADER = {
     API_KEY: 'x-api-key',
     CLIENT_ID: 'x-client-id',
-    AUTHORIZATION: 'authorization' 
+    AUTHORIZATION: 'authorization',
+    REFRESHTOKEN: 'x-rtoken-id' 
 }
 
 const createTokenPair = async ( payload, publicKey, privateKey ) => {
@@ -48,6 +49,23 @@ const authentication = asyncHandler( async (req, res, next) => {
         throw new NotFoundError()
     }
 
+    if(req.headers[HEADER.REFRESHTOKEN]){
+        const refreshToken = req.headers[HEADER.REFRESHTOKEN]?.toString()
+
+        try {
+            const decodeUser = jsonwebtoken.verify(refreshToken, keyStore.privateKey)
+            if(userId !== decodeUser.userId) {
+                throw new UnauthorizedError("Error: Invalid User")
+            }
+            req.keyStore = keyStore
+            req.user = decodeUser
+            req.refreshToken = refreshToken
+            return next()
+        } catch (error) {
+            throw error
+        }
+    }
+
     const accessToken = req.headers[HEADER.AUTHORIZATION]?.toString()
     if(!accessToken) {
         throw new UnauthorizedError("Error: Invalid Request")
@@ -66,7 +84,12 @@ const authentication = asyncHandler( async (req, res, next) => {
 
 })
 
+const verifyJWT = async (token, key) => {
+    return await jsonwebtoken.verify(token, key)
+}
+
 module.exports = { 
     createTokenPair,
     authentication,
+    verifyJWT,
 }

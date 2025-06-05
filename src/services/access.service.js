@@ -4,9 +4,9 @@ const shopModel = require("../models/shop.model");
 const crypto = require('node:crypto');
 const bcrypt = require('bcrypt');
 const keyTokenService = require("./keyToken.service");
-const { createTokenPair } = require("../auth/auth");
+const { createTokenPair, verifyJWT } = require("../auth/auth");
 const { getInforShop, generatePairKey } = require("../utils");
-const { BadRequestError, UnauthorizedError } = require("../core/error.response");
+const { BadRequestError, UnauthorizedError, ForbiddenError } = require("../core/error.response");
 const shopService = require("./shop.service");
 
 const RolesShop = {
@@ -16,6 +16,43 @@ const RolesShop = {
 }
 
 class AccessService {
+
+    static handleRefreshToken = async ({refreshToken, user, keyStore}) => {
+        const { email, userId } = user
+
+        if(keyStore.refreshTokensUsed.includes(refreshToken)) {
+            await keyTokenService.deleteKeyTokenById(tokenUsed._id)
+            throw new ForbiddenError("Something when wrong! Please login again")
+        }
+
+        if(keyStore.refreshToken !== refreshToken) {
+            throw new UnauthorizedError("Error: User must login before")
+        }
+
+        const shopUser = await shopService.findByEmail(email)
+        if(!shopUser){
+            throw new UnauthorizedError("Error: Unauthorized")
+        }
+
+        //create new Access Token and Refresh Token
+        const token = await createTokenPair(
+            {
+                userId,
+                email
+            },
+            keyStore.publicKey,
+            keyStore.privateKey
+        )
+
+        await keyTokenService.updateKeyTokenById(keyStore._id, token.refreshToken , keyStore.refreshToken)
+        return {
+            user: {
+                userId,
+                email
+            },
+            token
+        }
+    }
 
     static logOut = async ( keyStore ) => {
         return await keyTokenService.removeKeyTokenById(keyStore._id)
