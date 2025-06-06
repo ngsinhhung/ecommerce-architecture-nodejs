@@ -1,16 +1,40 @@
 'use strict'
 
+const { CreatedSuccessResponse, OKSuccessResponse } = require("../core/success.response")
 const accessService = require("../services/access.service")
 
 class AccessController {
 
+    handerRefreshToken = async (req, res, next) => {
+        new OKSuccessResponse({
+            message: 'Get Token Successfully',
+            metadata: await accessService.handleRefreshToken({
+                refreshToken: req.refreshToken,
+                user: req.user,
+                keyStore: req.keyStore
+            })
+        }).send(res)
+    }
+
+    logIn = async (req, res, next) => {
+        new OKSuccessResponse({
+            message: 'Login Successfully',
+            metadata: await accessService.logIn(req.body)
+        }).send(res)
+    }
+
+    logOut = async (req, res, next) => {
+        new OKSuccessResponse({
+            message: 'Logout Successfully',
+            metadata: await accessService.logOut(req.keyStore)
+        }).send(res)
+    }
+
     signUp = async (req, res, next) => {
-        try {
-            console.log(':::[P]:::', req.body)
-            return res.status(201).json(await accessService.signUp(req.body))
-        } catch (error) {
-            next(error)
-        }
+        new CreatedSuccessResponse({
+            message: 'Register Successfully',
+            metadata: await accessService.signUp(req.body)
+        }).send(res)
     }
 }
 

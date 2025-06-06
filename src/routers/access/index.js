@@ -2,16 +2,17 @@
 
 const express = require('express');
 const accessController = require('../../controllers/access.controller');
-const { apiKey, permission } = require('../../auth/checkAuth');
+const asyncHandler = require('../../helpers/asyncHandler');
+const { authentication } = require('../../auth/auth');
 const router = express.Router()
 
-// check api key
-router.use(apiKey)
+router.post('/shop/signup', asyncHandler(accessController.signUp));
+router.post('/shop/login', asyncHandler(accessController.logIn))
 
-// check permission
-router.use(permission('0000'))
+//authentication
+router.use(authentication)
 
-//SignUP
-router.post('/shop/signup', accessController.signUp);
+router.post('/shop/logout', asyncHandler(accessController.logOut))
+router.post('/shop/handle-refresh-token', asyncHandler(accessController.handerRefreshToken))
 
 module.exports = router

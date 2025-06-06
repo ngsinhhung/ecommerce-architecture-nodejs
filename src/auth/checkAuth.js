@@ -1,5 +1,6 @@
 'use strict'
 
+const { UnauthorizedError, ForbiddenError } = require("../core/error.response")
 const apikeyServices = require("../services/apikey.services")
 
 const HEADER = {
@@ -8,45 +9,43 @@ const HEADER = {
 }
 
 const apiKey = async (req, res, next) => {
-    try {
+    // try {
         const key = req.headers[HEADER.API_KEY]?.toString()
         if(!key){
-            return res.status(403).json({
-                message: "Forbidden Error"
-            })
+            throw new UnauthorizedError()
+            // return res.status(403).json({
+            //     message: "Forbidden Error"
+            // })
         }
 
         const objKey = await apikeyServices.findById(key)
         if (!objKey) {
-            return res.status(403).json({
-                message: "Forbidden Error"
-            })
+            throw new UnauthorizedError()
+            // return res.status(403).json({
+            //     message: "Forbidden Error"
+            // })
         }
 
         req.objectKey = objKey
         return next()
-    } catch (error) {
+    // } catch (error) {
 
-        return res.status(500).json({
-                message: "Internal Server Error"
-            })
-    }
+    //     return res.status(500).json({
+    //             message: "Internal Server Error"
+    //         })
+    // }
 
 }
 
 const permission = ( permission ) => {
     return (req, res, next) => {
         if(!req.objectKey.permissions){
-            return res.status(403).json({
-                message: "Permission Denied"
-            })
+            throw new ForbiddenError()
         }
         console.log(req.objectKey.permissions);
         const validPermission = req.objectKey.permissions.includes(permission)
         if(!validPermission) {
-            return res.status(403).json({
-                message: "Permission Denied"
-            })
+            throw new ForbiddenError()
         }
         return next()
     }
@@ -54,5 +53,5 @@ const permission = ( permission ) => {
 
 module.exports = {
     apiKey,
-    permission
+    permission,
 };
