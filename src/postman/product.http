@@ -13,7 +13,6 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODNkNzc4Yzdj
   "product_price": 25.99,
   "product_quantity": 100,
   "product_type": "Electronics",
-  "product_shop": "683d778c7c437e68030d237e",
   "product_attributes": {
     "color": "black",
     "manufacturer": "Logitech",

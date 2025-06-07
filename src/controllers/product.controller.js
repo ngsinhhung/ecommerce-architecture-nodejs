@@ -8,7 +8,10 @@ class ProductController {
     createNewProduct = async (req, res, next) => {
         new CreatedSuccessResponse({
             message: "Product Created Successfully",
-            metadata: await productFactory.createNewProduct(req.body)
+            metadata: await productFactory.createNewProduct({
+                ...req.body,
+                product_shop: req.user.userId
+            })
         }).send(res)
     }
 
