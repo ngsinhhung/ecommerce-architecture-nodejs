@@ -4,14 +4,14 @@ A scalable and modular eCommerce architecture built with Node.js and Express, de
 # 🚀 Features
 - 🧱 Modular Architecture (services, routes, controllers, models)
 - 🔐 JWT Authentication & Authorization
-<!-- - 🛍️ Product & Category Management
+- 🛍️ Product & Category Management
 - 🧾 Cart & Order Management
 - 💳 Payment Integration Ready
 - 🧑‍💼 Role-Based Access Control (RBAC)
 - 📦 MongoDB with Mongoose ODM
 - 🧪 Jest for Unit & Integration Testing
 - 🌐 RESTful API design
-- 📁 Environment-based configuration support -->
+- 📁 Environment-based configuration support
 
 # 🛠 Tech Stack
 - Node.js + Express
