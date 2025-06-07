@@ -42,20 +42,26 @@ class Product {
         this.product_attributes = product_attributes
     }
 
-    async createNewProduct() {
-        return await product.create(this)  
+    async createNewProduct( product_id ) {
+        return await product.create({
+            ...this,
+            _id: product_id
+        })  
     }
 }
 
 class Clothes extends Product {
 
     createNewClothesProduct = async () => {
-        const newClothes = await clothes.create(this.product_attributes)
+        const newClothes = await clothes.create({
+            ...this.product_attributes,
+            shop: this.product_shop
+        })
         if(!newClothes) {
             throw new BadRequestError('Error: Error while create new clothes')
         }
 
-        const newProduct = await super.createNewProduct()
+        const newProduct = await super.createNewProduct(newClothes._id)
         if(!newProduct){
             throw new BadRequestError('Error: Error while create new product')
         }
@@ -67,14 +73,15 @@ class Clothes extends Product {
 class Electronic extends Product {
 
     createNewElectronicProduct = async () => {
-        const newElectronic = await electronics.create(this.product_attributes)
+        const newElectronic = await electronics.create({
+            ...this.product_attributes,
+            shop: this.product_shop
+        })
         if(!newElectronic) {
             throw new BadRequestError('Error: Error while create new clothes')
         }
 
-        console.log(this);
-
-        const newProduct = await super.createNewProduct()
+        const newProduct = await super.createNewProduct(newElectronic._id)
         if(!newProduct){
             throw new BadRequestError('Error: Error while create new product')
         }
