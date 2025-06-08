@@ -12,4 +12,7 @@ productRouter.use(authentication)
 
 productRouter.post('/shop/product', asyncHandler(productController.createNewProduct))
 
+//Product Draft
+productRouter.get('/shop/product-draft', asyncHandler(productController.getAllProductDraft))
+
 module.exports = productRouter
