@@ -55,6 +55,18 @@ class ProductFactory {
 
         return { modifiedCount }
     }
+
+    static async unpublishProductByShop({product_shop, product_id}) {
+        const product = findProductByShopIdAndId({product_shop, product_id})
+        if(!product) {
+            throw new BadRequestError("Error: Product Not Found")
+        }
+        
+        product.isPublished = false
+
+        const { modifiedCount } = await updateProductById(product)
+        return { modifiedCount }
+    }
 }
 
 

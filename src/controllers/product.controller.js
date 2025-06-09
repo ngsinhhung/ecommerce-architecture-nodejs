@@ -23,7 +23,7 @@ class ProductController {
      */
     getListProductDraft = async (req, res, next) => {
         new OKSuccessResponse({
-            message: "Get Product Draft Successfully",
+            message: "Get List Products Draft Successfully",
             metadata: await productFactory.findAllProductDraft({
                 product_shop: req.user.userId,
                 skip: req.body.skip,
@@ -34,7 +34,7 @@ class ProductController {
 
     getListProductPublish = async (req, res, next) => {
         new OKSuccessResponse({
-            message: "Get Product Publish Successfully",
+            message: "Get List Products Publish Successfully",
             metadata: await productFactory.findAllProductPublish({
                 product_shop: req.user.userId,
                 skip: req.body.skip,
@@ -47,6 +47,16 @@ class ProductController {
         new OKSuccessResponse({
             message: "Publish Product Successfully",
             metadata: await productFactory.publishProductByShop({
+                product_shop: req.user.userId,
+                product_id: req.query.productId
+            })
+        }).send(res)
+    }
+
+    unpublishProductByShop = async (req, res, next) => {
+        new OKSuccessResponse({
+            message: "Unpublish Product Successfully",
+            metadata: await productFactory.unpublishProductByShop({
                 product_shop: req.user.userId,
                 product_id: req.query.productId
             })

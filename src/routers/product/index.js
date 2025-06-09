@@ -18,5 +18,6 @@ productRouter.get('/shop/product-draft', asyncHandler(productController.getListP
 //Product Publish
 productRouter.get('/shop/product-publish', asyncHandler(productController.getListProductPublish))
 productRouter.patch('/shop/product-publish', asyncHandler(productController.publishProductByShop))
+productRouter.patch('/shop/product-unpublish', asyncHandler(productController.unpublishProductByShop))
 
 module.exports = productRouter
