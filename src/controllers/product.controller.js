@@ -63,6 +63,16 @@ class ProductController {
         }).send(res)
     }
 
+    getSearchProduct = async(req, res, next) => {
+        console.log(req.query.search);
+        new OKSuccessResponse({
+            message: "Get List Search Product Successfully",
+            metadata: await productFactory.searchProductPublish({
+                keySearch: req.query.search
+            })
+        }).send(res)
+    }
+
 }
 
 module.exports = new ProductController()

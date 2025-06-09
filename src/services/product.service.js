@@ -65,6 +65,11 @@ class ProductFactory {
         const { modifiedCount } = await productRepository.updateProductById(product)
         return { modifiedCount }
     }
+
+    static async searchProductPublish({ keySearch }) {
+        const regexSearch = new RegExp(keySearch)
+        return await productRepository.getSearchProductPublish(regexSearch)
+    }
 }
 
 

@@ -5,6 +5,17 @@ const { product, clothes, electronics, furnitures } = require("../models/product
 
 class ProductRepository {
 
+    static async getSearchProductPublish(keySearch) {
+        return await product.find({
+            isPublished: true,
+            $text: { $search: keySearch}
+        }, {
+            score: {
+                $meta: 'textScore'
+            }
+        }).sort({score: {$meta: 'textScore'}}).lean()
+    }
+
     static async getListProductsDraft({ query, skip, limit }) {
         return await this.queryProduct({ query, skip, limit })
     }
