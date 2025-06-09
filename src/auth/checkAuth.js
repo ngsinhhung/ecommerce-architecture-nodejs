@@ -42,7 +42,6 @@ const permission = ( permission ) => {
         if(!req.objectKey.permissions){
             throw new ForbiddenError()
         }
-        console.log(req.objectKey.permissions);
         const validPermission = req.objectKey.permissions.includes(permission)
         if(!validPermission) {
             throw new ForbiddenError()
