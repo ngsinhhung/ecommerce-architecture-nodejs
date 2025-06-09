@@ -53,6 +53,18 @@ const productSchema = new Schema({
     product_variation: {
         type: Array,
         default: []
+    },
+    isDraft: {
+        type: Boolean,
+        default: true,
+        index: true,
+        select: false,
+    },
+    isPublished: {
+        type: Boolean,
+        default: false,
+        index: true,
+        select: false,
     }
 }, {
     timestamps: true,
@@ -60,7 +72,7 @@ const productSchema = new Schema({
 });
 
 //Document middleware
-productSchema.pre('save', (next) => {
+productSchema.pre('save', function (next){    
     this.product_slug = slugify(this.product_name, {lower: true})
     next()
 })
