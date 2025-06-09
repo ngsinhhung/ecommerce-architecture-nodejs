@@ -2,7 +2,7 @@
 
 const { product, clothes, electronics, furnitures} = require('../models/product.model');
 const { BadRequestError } = require("../core/error.response");
-const { findAllProductDraftRepository, findAllProductPublishRepository, findProductByShopIdAndId, updateProductById } = require('../repositories/product.repository');
+const productRepository = require('../repositories/product.repository');
 
 
 class ProductFactory {
@@ -30,20 +30,18 @@ class ProductFactory {
         // }
     }
 
-    static async findAllProductDraft({product_shop, skip = 0, limit = 50}) {
-        console.log(skip)
-        console.log(limit)
+    static async findListProductsDraft({product_shop, skip = 0, limit = 50}) {
         const query = { product_shop, isDraft: true }
-        return await findAllProductDraftRepository({query, skip, limit})
+        return await productRepository.getListProductsDraft({query, skip, limit})
     }
 
-    static async findAllProductPublish({product_shop, skip = 0, limit = 50}) {
+    static async findListProductsPublish({product_shop, skip = 0, limit = 50}) {
         const query = { product_shop, isPublished: true }
-        return await findAllProductPublishRepository({query, skip, limit})
+        return await productRepository.getListProductsPublish({query, skip, limit})
     }
 
     static async publishProductByShop({product_shop, product_id}) {
-        const product = findProductByShopIdAndId({product_shop, product_id})
+        const product = productRepository.findProductByShopIdAndId({product_shop, product_id})
         if(!product) {
             throw new BadRequestError("Error: Product Not Found")
         }
@@ -51,20 +49,20 @@ class ProductFactory {
         product.isDraft = false
         product.isPublished = true
 
-        const { modifiedCount } = await updateProductById(product)
+        const { modifiedCount } = await productRepository.updateProductById(product)
 
         return { modifiedCount }
     }
 
     static async unpublishProductByShop({product_shop, product_id}) {
-        const product = findProductByShopIdAndId({product_shop, product_id})
+        const product = productRepository.findProductByShopIdAndId({product_shop, product_id})
         if(!product) {
             throw new BadRequestError("Error: Product Not Found")
         }
         
         product.isPublished = false
 
-        const { modifiedCount } = await updateProductById(product)
+        const { modifiedCount } = await productRepository.updateProductById(product)
         return { modifiedCount }
     }
 }
