@@ -24,7 +24,7 @@ class ProductController {
     getListProductDraft = async (req, res, next) => {
         new OKSuccessResponse({
             message: "Get List Products Draft Successfully",
-            metadata: await productFactory.findAllProductDraft({
+            metadata: await productFactory.findListProductsDraft({
                 product_shop: req.user.userId,
                 skip: req.body.skip,
                 limit: req.body.limit
@@ -35,7 +35,7 @@ class ProductController {
     getListProductPublish = async (req, res, next) => {
         new OKSuccessResponse({
             message: "Get List Products Publish Successfully",
-            metadata: await productFactory.findAllProductPublish({
+            metadata: await productFactory.findListProductsPublish({
                 product_shop: req.user.userId,
                 skip: req.body.skip,
                 limit: req.body.limit
