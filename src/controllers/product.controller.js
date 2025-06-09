@@ -21,13 +21,34 @@ class ProductController {
      * @param {Number} skip
      * @return {JSON}
      */
-    getAllProductDraft = async (req, res, next) => {
+    getListProductDraft = async (req, res, next) => {
         new OKSuccessResponse({
-            message: "Get All Product Draft Successfully",
+            message: "Get Product Draft Successfully",
             metadata: await productFactory.findAllProductDraft({
                 product_shop: req.user.userId,
                 skip: req.body.skip,
                 limit: req.body.limit
+            })
+        }).send(res)
+    }
+
+    getListProductPublish = async (req, res, next) => {
+        new OKSuccessResponse({
+            message: "Get Product Publish Successfully",
+            metadata: await productFactory.findAllProductPublish({
+                product_shop: req.user.userId,
+                skip: req.body.skip,
+                limit: req.body.limit
+            })
+        }).send(res)
+    }
+
+    publishProductByShop = async (req, res, next) => {
+        new OKSuccessResponse({
+            message: "Publish Product Successfully",
+            metadata: await productFactory.publishProductByShop({
+                product_shop: req.user.userId,
+                product_id: req.query.productId
             })
         }).send(res)
     }
