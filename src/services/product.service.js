@@ -30,12 +30,12 @@ class ProductFactory {
         // }
     }
 
-    static async findListProductsDraft({product_shop, skip = 0, limit = 50}) {
+    static async findListProductsDraftByShop({product_shop, skip = 0, limit = 50}) {
         const query = { product_shop, isDraft: true }
         return await productRepository.getListProductsDraft({query, skip, limit})
     }
 
-    static async findListProductsPublish({product_shop, skip = 0, limit = 50}) {
+    static async findListProductsPublishByShop({product_shop, skip = 0, limit = 50}) {
         const query = { product_shop, isPublished: true }
         return await productRepository.getListProductsPublish({query, skip, limit})
     }
@@ -61,6 +61,7 @@ class ProductFactory {
         }
         
         product.isPublished = false
+        product.isDraft = true
 
         const { modifiedCount } = await productRepository.updateProductById(product)
         return { modifiedCount }

@@ -21,10 +21,10 @@ class ProductController {
      * @param {Number} skip
      * @return {JSON}
      */
-    getListProductDraft = async (req, res, next) => {
+    getListProductDraftByShop = async (req, res, next) => {
         new OKSuccessResponse({
             message: "Get List Products Draft Successfully",
-            metadata: await productFactory.findListProductsDraft({
+            metadata: await productFactory.findListProductsDraftByShop({
                 product_shop: req.user.userId,
                 skip: req.body.skip,
                 limit: req.body.limit
@@ -32,10 +32,10 @@ class ProductController {
         }).send(res)
     }
 
-    getListProductPublish = async (req, res, next) => {
+    getListProductPublishByShop = async (req, res, next) => {
         new OKSuccessResponse({
             message: "Get List Products Publish Successfully",
-            metadata: await productFactory.findListProductsPublish({
+            metadata: await productFactory.findListProductsPublishByShop({
                 product_shop: req.user.userId,
                 skip: req.body.skip,
                 limit: req.body.limit
