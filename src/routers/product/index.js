@@ -8,7 +8,7 @@ const productController = require('../../controllers/product.controller');
 
 const productRouter = express.Router()
 
-productRouter.get('/shop/product', asyncHandler(productController.getSearchProduct))
+productRouter.get('/product', asyncHandler(productController.getSearchProduct))
 
 productRouter.use(authentication)
 
