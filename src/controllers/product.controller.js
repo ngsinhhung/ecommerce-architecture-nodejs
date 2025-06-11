@@ -64,12 +64,19 @@ class ProductController {
     }
 
     getSearchProduct = async(req, res, next) => {
-        console.log(req.query.search);
         new OKSuccessResponse({
             message: "Get List Search Product Successfully",
             metadata: await productFactory.searchProductPublish({
                 keySearch: req.query.search
             })
+        }).send(res)
+    }
+    
+
+    getAllProducts = async (req, res, next) => {
+        new OKSuccessResponse({
+            message: "Get All Products Successfully",
+            metadata: await productFactory.getAllProducts(req.query)
         }).send(res)
     }
 

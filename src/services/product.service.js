@@ -41,7 +41,7 @@ class ProductFactory {
     }
 
     static async publishProductByShop({product_shop, product_id}) {
-        const product = productRepository.findProductByShopIdAndId({product_shop, product_id})
+        const product = await productRepository.findProductByShopIdAndId({product_shop, product_id})
         if(!product) {
             throw new BadRequestError("Error: Product Not Found")
         }
@@ -50,18 +50,17 @@ class ProductFactory {
         product.isPublished = true
 
         const { modifiedCount } = await productRepository.updateProductById(product)
-
         return { modifiedCount }
     }
 
     static async unpublishProductByShop({product_shop, product_id}) {
-        const product = productRepository.findProductByShopIdAndId({product_shop, product_id})
+        const product = await productRepository.findProductByShopIdAndId({product_shop, product_id})
         if(!product) {
             throw new BadRequestError("Error: Product Not Found")
         }
         
-        product.isPublished = false
         product.isDraft = true
+        product.isPublished = false
 
         const { modifiedCount } = await productRepository.updateProductById(product)
         return { modifiedCount }
@@ -70,6 +69,13 @@ class ProductFactory {
     static async searchProductPublish({ keySearch }) {
         const regexSearch = new RegExp(keySearch)
         return await productRepository.getSearchProductPublish(regexSearch)
+    }
+
+    static async getAllProducts({ limit = 50, sort = 'ctime', page = 1, filter = {isPublished: true} }) {
+        return await productRepository.getAllProducts({
+            limit, sort, page, filter,
+            select: ['product_name', 'product_thumb', 'product_price']
+        })
     }
 }
 

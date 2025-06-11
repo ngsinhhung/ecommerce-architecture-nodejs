@@ -1,7 +1,7 @@
 'use strict'
 
-const { update } = require("lodash");
 const { product, clothes, electronics, furnitures } = require("../models/product.model");
+const { getSelectData } = require("../utils");
 
 class ProductRepository {
 
@@ -25,11 +25,27 @@ class ProductRepository {
     }
 
     static async findProductByShopIdAndId({ product_shop, product_id }) {
-        return await product.findOne({ product_shop, product_id }).lean()
+        return await product.findOne({ 
+            _id: product_id,
+            product_shop: product_shop, 
+        }).lean()
     }
 
     static async updateProductById(productUpdate) {
-        return await product.updateOne({product_id: productUpdate.product_id}, productUpdate)
+        return await product.updateOne({_id: productUpdate._id}, productUpdate)
+    }
+
+    static async getAllProducts({ limit, sort, page, filter, select }) {
+        const skip = (page - 1) * limit
+        const sortBy = sort === 'ctimne' ? { _id: -1 } : { _id: 1 }
+        const products = await product.find(filter)
+                                .sort(sortBy)
+                                .skip(skip)
+                                .limit(limit)
+                                .select(getSelectData(select))
+                                .lean()
+        
+        return products
     }
 
     static async queryProduct({ query, skip, limit }) {

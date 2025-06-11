@@ -14,7 +14,12 @@ const generatePairKey = () => {
     return {privateKey, publicKey}
 }
 
+const getSelectData = (select = []) => {
+    return Object.fromEntries(select.map(item => [item, 1]))
+}
+
 module.exports = {
     getInforShop,
-    generatePairKey
+    generatePairKey,
+    getSelectData
 };
