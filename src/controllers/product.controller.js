@@ -25,7 +25,7 @@ class ProductController {
         new OKSuccessResponse({
             message: "Get List Products Draft Successfully",
             metadata: await productFactory.findListProductsDraftByShop({
-                product_shop: req.user.userId,
+                productShop: req.user.userId,
                 skip: req.body.skip,
                 limit: req.body.limit
             })
@@ -36,7 +36,7 @@ class ProductController {
         new OKSuccessResponse({
             message: "Get List Products Publish Successfully",
             metadata: await productFactory.findListProductsPublishByShop({
-                product_shop: req.user.userId,
+                productShop: req.user.userId,
                 skip: req.body.skip,
                 limit: req.body.limit
             })
@@ -47,8 +47,8 @@ class ProductController {
         new OKSuccessResponse({
             message: "Publish Product Successfully",
             metadata: await productFactory.publishProductByShop({
-                product_shop: req.user.userId,
-                product_id: req.query.productId
+                productShop: req.user.userId,
+                productId: req.query.productId
             })
         }).send(res)
     }
@@ -57,8 +57,8 @@ class ProductController {
         new OKSuccessResponse({
             message: "Unpublish Product Successfully",
             metadata: await productFactory.unpublishProductByShop({
-                product_shop: req.user.userId,
-                product_id: req.query.productId
+                productShop: req.user.userId,
+                productId: req.query.productId
             })
         }).send(res)
     }
@@ -84,7 +84,7 @@ class ProductController {
         new OKSuccessResponse({
             message: "Get Product Detail Successfully",
             metadata: await productFactory.getProductDetail({
-                product_id: req.params.productId,
+                productId: req.params.productId,
             })
         }).send(res)
     }
@@ -93,8 +93,8 @@ class ProductController {
         new OKSuccessResponse({
             message: "Update Product Successfully",
             metadata: await productFactory.updateProduct({
-                product_shop: req.user.userId,
-                product_id: req.params.productId,
+                productShop: req.user.userId,
+                productId: req.params.productId,
                 payload: req.body
             })
         }).send(res)

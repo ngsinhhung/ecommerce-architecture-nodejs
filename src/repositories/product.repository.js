@@ -24,10 +24,10 @@ class ProductRepository {
         return await this.queryProduct({ query, skip, limit })
     }
 
-    static async findProductByShopIdAndId({ product_shop, product_id }) {
+    static async findProductByShopIdAndId({ productShop, productId }) {
         return await product.findOne({ 
-            _id: product_id,
-            product_shop: product_shop, 
+            _id: productId,
+            product_shop: productShop, 
         }).lean()
     }
 
@@ -52,8 +52,8 @@ class ProductRepository {
         return products
     }
 
-    static async getProductById({ product_id, unselect }) {
-        return await product.findById(product_id).select(unselectData(unselect)).lean()
+    static async getProductById({ productId, unselect }) {
+        return await product.findById(productId).select(unselectData(unselect)).lean()
     }
 
     static async queryProduct({ query, skip, limit }) {

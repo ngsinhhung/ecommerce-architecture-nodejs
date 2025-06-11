@@ -33,18 +33,18 @@ class ProductFactory {
         // }
     }
 
-    static async findListProductsDraftByShop({product_shop, skip = 0, limit = 50}) {
-        const query = { product_shop, isDraft: true }
+    static async findListProductsDraftByShop({productShop, skip = 0, limit = 50}) {
+        const query = { product_shop: productShop, isDraft: true }
         return await productRepository.getListProductsDraft({query, skip, limit})
     }
 
-    static async findListProductsPublishByShop({product_shop, skip = 0, limit = 50}) {
-        const query = { product_shop, isPublished: true }
+    static async findListProductsPublishByShop({productShop, skip = 0, limit = 50}) {
+        const query = { product_shop: productShop, isPublished: true }
         return await productRepository.getListProductsPublish({query, skip, limit})
     }
 
-    static async publishProductByShop({product_shop, product_id}) {
-        const product = await productRepository.findProductByShopIdAndId({product_shop, product_id})
+    static async publishProductByShop({productShop, productId}) {
+        const product = await productRepository.findProductByShopIdAndId({productShop, productId})
         if(!product) {
             throw new BadRequestError("Error: Product Not Found")
         }
@@ -56,8 +56,8 @@ class ProductFactory {
         return { modifiedCount }
     }
 
-    static async unpublishProductByShop({product_shop, product_id}) {
-        const product = await productRepository.findProductByShopIdAndId({product_shop, product_id})
+    static async unpublishProductByShop({productShop, productId}) {
+        const product = await productRepository.findProductByShopIdAndId({productShop, productId})
         if(!product) {
             throw new BadRequestError("Error: Product Not Found")
         }
@@ -81,19 +81,19 @@ class ProductFactory {
         })
     }
 
-    static async getProductDetail({ product_id }) {
-        return await productRepository.getProductById({ product_id, unselect: ["__v", "product_variation"] })
+    static async getProductDetail({ productId }) {
+        return await productRepository.getProductById({ productId, unselect: ["__v", "product_variation"] })
     }
 
-    static async updateProduct({product_shop, product_id, payload}) {
-        const product = await productRepository.findProductByShopIdAndId({product_shop, product_id})
+    static async updateProduct({productShop, productId, payload}) {
+        const product = await productRepository.findProductByShopIdAndId({productShop, productId})
         if(!product) {
             throw new BadRequestError("Error: Product Not Found")
         }
 
         const productClass = this.productRegister[product.product_type]
 
-        return new productClass(payload).updateProductByType(product_id)
+        return new productClass(payload).updateProductByType(productId)
     }
 }
 
