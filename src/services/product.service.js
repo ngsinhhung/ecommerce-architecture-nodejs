@@ -3,6 +3,9 @@
 const { product, clothes, electronics, furnitures} = require('../models/product.model');
 const { BadRequestError } = require("../core/error.response");
 const productRepository = require('../repositories/product.repository');
+const clothesRepository = require('../repositories/clothes.repository');
+const electronicRepository = require('../repositories/electronic.repository');
+const furnitureRepository = require('../repositories/furniture.repository');
 
 
 class ProductFactory {
@@ -81,6 +84,17 @@ class ProductFactory {
     static async getProductDetail({ product_id }) {
         return await productRepository.getProductById({ product_id, unselect: ["__v", "product_variation"] })
     }
+
+    static async updateProduct({product_shop, product_id, payload}) {
+        const product = await productRepository.findProductByShopIdAndId({product_shop, product_id})
+        if(!product) {
+            throw new BadRequestError("Error: Product Not Found")
+        }
+
+        const productClass = this.productRegister[product.product_type]
+
+        return new productClass(payload).updateProductByType(product_id)
+    }
 }
 
 
@@ -112,6 +126,13 @@ class Product {
             _id: product_id
         })  
     }
+
+    async updateProduct({ productId, productUpdate }) {
+        return await productRepository.findByIdAndUpdate({
+            productId: productId,
+            productUpdate: productUpdate
+        })
+    }
 }
 
 class Clothes extends Product {
@@ -131,6 +152,21 @@ class Clothes extends Product {
         }
 
         return newProduct
+    }
+
+    updateProductByType = async (productId) => {
+        if(this.product_attributes) {
+            await clothesRepository.updateClothesById({
+                productId: productId,
+                dataUpdate: this.product_attributes
+            })
+        }
+
+        const productUpdated = await super.updateProduct({
+            productId: productId,
+            productUpdate: this
+        })
+        return productUpdated
     }
 }
 
@@ -152,6 +188,21 @@ class Electronic extends Product {
 
         return newProduct
     }
+
+    updateProductByType = async (productId) => {        
+        if(this.product_attributes) {
+            await electronicRepository.updateElectronicById({
+                productId: productId,
+                dataUpdate: this.product_attributes
+            })
+        }
+
+        const productUpdated = await super.updateProduct({
+            productId: productId,
+            productUpdate: this
+        })
+        return productUpdated
+    }
 }
 
 class Furniture extends Product {
@@ -171,6 +222,21 @@ class Furniture extends Product {
         }
 
         return newProduct
+    }
+
+    updateProductByType = async (productId) => {
+        if(this.product_attributes) {
+            await furnitureRepository.updateFurnitureById({
+                productId: productId,
+                dataUpdate: this.product_attributes
+            })
+        }
+
+        const productUpdated = await super.updateProduct({
+            productId: productId,
+            productUpdate: this
+        })
+        return productUpdated
     }
 }
 

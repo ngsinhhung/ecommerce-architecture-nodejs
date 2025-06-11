@@ -35,6 +35,10 @@ class ProductRepository {
         return await product.updateOne({_id: productUpdate._id}, productUpdate)
     }
 
+    static async findByIdAndUpdate({ productId, productUpdate }) {
+        return await product.findByIdAndUpdate(productId, productUpdate, {new: true})
+    }
+
     static async getAllProducts({ limit, sort, page, filter, select }) {
         const skip = (page - 1) * limit
         const sortBy = sort === 'ctimne' ? { _id: -1 } : { _id: 1 }

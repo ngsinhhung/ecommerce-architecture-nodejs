@@ -15,6 +15,7 @@ productRouter.get('/:productId', asyncHandler(productController.getProductDetail
 productRouter.use(authentication)
 
 productRouter.post('/shop/product', asyncHandler(productController.createNewProduct))
+productRouter.patch('/shop/product/:productId', asyncHandler(productController.updateProduct))
 
 //Product Draft
 productRouter.get('/shop/product-draft', asyncHandler(productController.getListProductDraftByShop))
