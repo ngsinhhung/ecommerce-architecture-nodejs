@@ -1,0 +1,248 @@
+'use strict'
+
+const { product, clothes, electronics, furnitures} = require('../models/product.model');
+const { BadRequestError } = require("../core/error.response");
+const productRepository = require('../repositories/product.repository');
+const clothesRepository = require('../repositories/clothes.repository');
+const electronicRepository = require('../repositories/electronic.repository');
+const furnitureRepository = require('../repositories/furniture.repository');
+
+
+class ProductFactory {
+
+    static productRegister = {}
+
+    static registerProductType(type, classRef) {
+        this.productRegister[type] = classRef
+    }
+
+    static createNewProduct(productData) {
+        const productClass = this.productRegister[productData.product_type]
+        if(!productClass){
+            throw new BadRequestError(`Error: Invalid Product Type::: ${productData.product_type}`)
+        }
+        return new productClass(productData).createNewProduct()
+        // switch(productData.product_type) {
+        //     case 'Clothes':
+        //         return new Clothes(productData).createNewClothesProduct()
+        //     case 'Electronics':
+        //         return new Electronic(productData).createNewElectronicProduct()
+        //     default:
+        //         throw new BadRequestError(`Error: Invalid Product Type::: ${productData.product_type}`)
+
+        // }
+    }
+
+    static async findListProductsDraftByShop({productShop, skip = 0, limit = 50}) {
+        const query = { product_shop: productShop, isDraft: true }
+        return await productRepository.getListProductsDraft({query, skip, limit})
+    }
+
+    static async findListProductsPublishByShop({productShop, skip = 0, limit = 50}) {
+        const query = { product_shop: productShop, isPublished: true }
+        return await productRepository.getListProductsPublish({query, skip, limit})
+    }
+
+    static async publishProductByShop({productShop, productId}) {
+        const product = await productRepository.findProductByShopIdAndId({productShop, productId})
+        if(!product) {
+            throw new BadRequestError("Error: Product Not Found")
+        }
+
+        product.isDraft = false
+        product.isPublished = true
+
+        const { modifiedCount } = await productRepository.updateProductById(product)
+        return { modifiedCount }
+    }
+
+    static async unpublishProductByShop({productShop, productId}) {
+        const product = await productRepository.findProductByShopIdAndId({productShop, productId})
+        if(!product) {
+            throw new BadRequestError("Error: Product Not Found")
+        }
+        
+        product.isDraft = true
+        product.isPublished = false
+
+        const { modifiedCount } = await productRepository.updateProductById(product)
+        return { modifiedCount }
+    }
+
+    static async searchProductPublish({ keySearch }) {
+        const regexSearch = new RegExp(keySearch)
+        return await productRepository.getSearchProductPublish(regexSearch)
+    }
+
+    static async getAllProducts({ limit = 50, sort = 'ctime', page = 1, filter = {isPublished: true} }) {
+        return await productRepository.getAllProducts({
+            limit, sort, page, filter,
+            select: ['product_name', 'product_thumb', 'product_price']
+        })
+    }
+
+    static async getProductDetail({ productId }) {
+        return await productRepository.getProductById({ productId, unselect: ["__v", "product_variation"] })
+    }
+
+    static async updateProduct({productShop, productId, payload}) {
+        const product = await productRepository.findProductByShopIdAndId({productShop, productId})
+        if(!product) {
+            throw new BadRequestError("Error: Product Not Found")
+        }
+
+        const productClass = this.productRegister[product.product_type]
+
+        return new productClass(payload).updateProductByType(productId)
+    }
+}
+
+
+class Product {
+
+    constructor ({
+        product_name,
+        product_thumb,
+        product_description,
+        product_price,
+        product_quantity,
+        product_type,
+        product_shop,
+        product_attributes
+    }) {
+        this.product_name = product_name
+        this.product_thumb = product_thumb
+        this.product_description = product_description
+        this.product_price = product_price
+        this.product_quantity = product_quantity
+        this.product_type = product_type
+        this.product_shop = product_shop
+        this.product_attributes = product_attributes
+    }
+
+    async createNewProduct( product_id ) {
+        return await product.create({
+            ...this,
+            _id: product_id
+        })  
+    }
+
+    async updateProduct({ productId, productUpdate }) {
+        return await productRepository.findByIdAndUpdate({
+            productId: productId,
+            productUpdate: productUpdate
+        })
+    }
+}
+
+class Clothes extends Product {
+
+    createNewProduct = async () => {
+        const newClothes = await clothes.create({
+            ...this.product_attributes,
+            shop: this.product_shop
+        })
+        if(!newClothes) {
+            throw new BadRequestError('Error: Error while create new clothes')
+        }
+
+        const newProduct = await super.createNewProduct(newClothes._id)
+        if(!newProduct){
+            throw new BadRequestError('Error: Error while create new product')
+        }
+
+        return newProduct
+    }
+
+    updateProductByType = async (productId) => {
+        if(this.product_attributes) {
+            await clothesRepository.updateClothesById({
+                productId: productId,
+                dataUpdate: this.product_attributes
+            })
+        }
+
+        const productUpdated = await super.updateProduct({
+            productId: productId,
+            productUpdate: this
+        })
+        return productUpdated
+    }
+}
+
+class Electronic extends Product {
+
+    createNewProduct = async () => {
+        const newElectronic = await electronics.create({
+            ...this.product_attributes,
+            shop: this.product_shop
+        })
+        if(!newElectronic) {
+            throw new BadRequestError('Error: Error while create new clothes')
+        }
+
+        const newProduct = await super.createNewProduct(newElectronic._id)
+        if(!newProduct){
+            throw new BadRequestError('Error: Error while create new product')
+        }
+
+        return newProduct
+    }
+
+    updateProductByType = async (productId) => {        
+        if(this.product_attributes) {
+            await electronicRepository.updateElectronicById({
+                productId: productId,
+                dataUpdate: this.product_attributes
+            })
+        }
+
+        const productUpdated = await super.updateProduct({
+            productId: productId,
+            productUpdate: this
+        })
+        return productUpdated
+    }
+}
+
+class Furniture extends Product {
+
+    createNewProduct = async () => {
+        const newFurniture = await furnitures.create({
+            ...this.product_attributes,
+            shop: this.product_shop
+        })
+        if(!newFurniture) {
+            throw new BadRequestError('Error: Error while create new clothes')
+        }
+
+        const newProduct = await super.createNewProduct(newFurniture._id)
+        if(!newProduct){
+            throw new BadRequestError('Error: Error while create new product')
+        }
+
+        return newProduct
+    }
+
+    updateProductByType = async (productId) => {
+        if(this.product_attributes) {
+            await furnitureRepository.updateFurnitureById({
+                productId: productId,
+                dataUpdate: this.product_attributes
+            })
+        }
+
+        const productUpdated = await super.updateProduct({
+            productId: productId,
+            productUpdate: this
+        })
+        return productUpdated
+    }
+}
+
+ProductFactory.registerProductType('Clothes', Clothes)
+ProductFactory.registerProductType('Electronics', Electronic)
+ProductFactory.registerProductType('Furnitures', Furniture)
+
+
+module.exports = ProductFactory

@@ -22,7 +22,8 @@
   "dependencies": {
     "express": "^5.1.0",
     "lodash": "^4.17.21",
-    "mongoose": "^8.15.1"
+    "mongoose": "^8.15.1",
+    "slugify": "^1.6.6"
   },
   "devDependencies": {
     "bcrypt": "^6.0.0",
