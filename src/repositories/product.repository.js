@@ -1,7 +1,7 @@
 'use strict'
 
-const { update } = require("lodash");
 const { product, clothes, electronics, furnitures } = require("../models/product.model");
+const { getSelectData, unselectData } = require("../utils");
 
 class ProductRepository {
 
@@ -24,12 +24,36 @@ class ProductRepository {
         return await this.queryProduct({ query, skip, limit })
     }
 
-    static async findProductByShopIdAndId({ product_shop, product_id }) {
-        return await product.findOne({ product_shop, product_id }).lean()
+    static async findProductByShopIdAndId({ productShop, productId }) {
+        return await product.findOne({ 
+            _id: productId,
+            product_shop: productShop, 
+        }).lean()
     }
 
     static async updateProductById(productUpdate) {
-        return await product.updateOne({product_id: productUpdate.product_id}, productUpdate)
+        return await product.updateOne({_id: productUpdate._id}, productUpdate)
+    }
+
+    static async findByIdAndUpdate({ productId, productUpdate }) {
+        return await product.findByIdAndUpdate(productId, productUpdate, {new: true})
+    }
+
+    static async getAllProducts({ limit, sort, page, filter, select }) {
+        const skip = (page - 1) * limit
+        const sortBy = sort === 'ctimne' ? { _id: -1 } : { _id: 1 }
+        const products = await product.find(filter)
+                                .sort(sortBy)
+                                .skip(skip)
+                                .limit(limit)
+                                .select(getSelectData(select))
+                                .lean()
+        
+        return products
+    }
+
+    static async getProductById({ productId, unselect }) {
+        return await product.findById(productId).select(unselectData(unselect)).lean()
     }
 
     static async queryProduct({ query, skip, limit }) {

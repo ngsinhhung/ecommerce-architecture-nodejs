@@ -5,19 +5,19 @@ POST {{url_dev}}/shop/product
 Content-Type: application/json
 x-api-key: df0fa8e478e8149581b2994fd3f717422dbb7a8f1d578afd233a506f8fd02f90306a7946f3c4abb2089889c081326d05a848caf9f495286aca11ff4aea2479fa
 x-client-id: 683d778c7c437e68030d237e
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODNkNzc4YzdjNDM3ZTY4MDMwZDIzN2UiLCJlbWFpbCI6ImFiY0oxQGdtYWlsLmNvbSIsImlhdCI6MTc0OTI4NTAyMCwiZXhwIjoxNzQ5NDU3ODIwfQ.hNsN1TheShSpqbXwTs6sHctfJTA-25VN1LGAjvwxY2c
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODNkNzc4YzdjNDM3ZTY4MDMwZDIzN2UiLCJlbWFpbCI6ImFiY0oxQGdtYWlsLmNvbSIsImlhdCI6MTc0OTU0NzA5NSwiZXhwIjoxNzQ5NzE5ODk1fQ.Yil3oqD1mGrWQvaYosJ2RxWe6MLLnU5_gLJFLQAlWq0
 
 {
-  "product_name": "Wireless Mouse",
-  "product_thumb": "https://example.com/images/wireless-mouse.jpg",
+  "product_name": "Macbook M2 Pro MAxxxxxx",
+  "product_thumb": "https://example.com/images/wireless-mouse-macm2.jpg",
   "product_description": "A sleek wireless mouse with ergonomic design and long battery life.",
-  "product_price": 25.99,
-  "product_quantity": 100,
+  "product_price": 1999,
+  "product_quantity": 5,
   "product_type": "Electronics",
   "product_attributes": {
-    "color": "black",
-    "manufacturer": "Logitech",
-    "model": "M185"
+    "color": "gold",
+    "manufacturer": "Apple",
+    "model": "MACM2PRO"
   }
 }
 
@@ -27,7 +27,7 @@ GET {{url_dev}}/shop/product-draft
 Content-Type: application/json
 x-api-key: df0fa8e478e8149581b2994fd3f717422dbb7a8f1d578afd233a506f8fd02f90306a7946f3c4abb2089889c081326d05a848caf9f495286aca11ff4aea2479fa
 x-client-id: 683d778c7c437e68030d237e
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODNkNzc4YzdjNDM3ZTY4MDMwZDIzN2UiLCJlbWFpbCI6ImFiY0oxQGdtYWlsLmNvbSIsImlhdCI6MTc0OTQ1ODU1OSwiZXhwIjoxNzQ5NjMxMzU5fQ.tXpj9E4pSznIlSPcPDzINE2SMmCT27_fh1N-lZkK2-M
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODNkNzc4YzdjNDM3ZTY4MDMwZDIzN2UiLCJlbWFpbCI6ImFiY0oxQGdtYWlsLmNvbSIsImlhdCI6MTc0OTU0NzA5NSwiZXhwIjoxNzQ5NzE5ODk1fQ.Yil3oqD1mGrWQvaYosJ2RxWe6MLLnU5_gLJFLQAlWq0
 
 {
   "skip": 0,
@@ -39,7 +39,7 @@ GET {{url_dev}}/shop/product-publish
 Content-Type: application/json
 x-api-key: df0fa8e478e8149581b2994fd3f717422dbb7a8f1d578afd233a506f8fd02f90306a7946f3c4abb2089889c081326d05a848caf9f495286aca11ff4aea2479fa
 x-client-id: 683d778c7c437e68030d237e
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODNkNzc4YzdjNDM3ZTY4MDMwZDIzN2UiLCJlbWFpbCI6ImFiY0oxQGdtYWlsLmNvbSIsImlhdCI6MTc0OTQ1ODU1OSwiZXhwIjoxNzQ5NjMxMzU5fQ.tXpj9E4pSznIlSPcPDzINE2SMmCT27_fh1N-lZkK2-M
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODNkNzc4YzdjNDM3ZTY4MDMwZDIzN2UiLCJlbWFpbCI6ImFiY0oxQGdtYWlsLmNvbSIsImlhdCI6MTc0OTU0NzA5NSwiZXhwIjoxNzQ5NzE5ODk1fQ.Yil3oqD1mGrWQvaYosJ2RxWe6MLLnU5_gLJFLQAlWq0
 
 {
   "skip": 0,
@@ -47,22 +47,56 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODNkNzc4Yzdj
 }
 
 ### Publish Product
-PATCH  {{url_dev}}/shop/product-publish?productId=6845aa290c314d44c54342f6 
+PATCH  {{url_dev}}/shop/product-publish?productId=68496af2e84cc3ab479b42ef 
 Content-Type: application/json
 x-api-key: df0fa8e478e8149581b2994fd3f717422dbb7a8f1d578afd233a506f8fd02f90306a7946f3c4abb2089889c081326d05a848caf9f495286aca11ff4aea2479fa
 x-client-id: 683d778c7c437e68030d237e
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODNkNzc4YzdjNDM3ZTY4MDMwZDIzN2UiLCJlbWFpbCI6ImFiY0oxQGdtYWlsLmNvbSIsImlhdCI6MTc0OTQ1ODU1OSwiZXhwIjoxNzQ5NjMxMzU5fQ.tXpj9E4pSznIlSPcPDzINE2SMmCT27_fh1N-lZkK2-M
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODNkNzc4YzdjNDM3ZTY4MDMwZDIzN2UiLCJlbWFpbCI6ImFiY0oxQGdtYWlsLmNvbSIsImlhdCI6MTc0OTU0NzA5NSwiZXhwIjoxNzQ5NzE5ODk1fQ.Yil3oqD1mGrWQvaYosJ2RxWe6MLLnU5_gLJFLQAlWq0
 
 
 ### Unpublish Product
-PATCH  {{url_dev}}/shop/product-unpublish?productId=6845aa290c314d44c54342f6 
+PATCH  {{url_dev}}/shop/product-unpublish?productId=68496af2e84cc3ab479b42ef 
 Content-Type: application/json
 x-api-key: df0fa8e478e8149581b2994fd3f717422dbb7a8f1d578afd233a506f8fd02f90306a7946f3c4abb2089889c081326d05a848caf9f495286aca11ff4aea2479fa
 x-client-id: 683d778c7c437e68030d237e
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODNkNzc4YzdjNDM3ZTY4MDMwZDIzN2UiLCJlbWFpbCI6ImFiY0oxQGdtYWlsLmNvbSIsImlhdCI6MTc0OTQ1ODU1OSwiZXhwIjoxNzQ5NjMxMzU5fQ.tXpj9E4pSznIlSPcPDzINE2SMmCT27_fh1N-lZkK2-M
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODNkNzc4YzdjNDM3ZTY4MDMwZDIzN2UiLCJlbWFpbCI6ImFiY0oxQGdtYWlsLmNvbSIsImlhdCI6MTc0OTU0NzA5NSwiZXhwIjoxNzQ5NzE5ODk1fQ.Yil3oqD1mGrWQvaYosJ2RxWe6MLLnU5_gLJFLQAlWq0
 
 
 ### Search Product
 GET {{url_dev}}/shop/product?search=a
 Content-Type: application/json
 x-api-key: df0fa8e478e8149581b2994fd3f717422dbb7a8f1d578afd233a506f8fd02f90306a7946f3c4abb2089889c081326d05a848caf9f495286aca11ff4aea2479fa
+
+### Get All Product at Home page
+GET {{url_dev}}/
+Content-Type: application/json
+x-api-key: df0fa8e478e8149581b2994fd3f717422dbb7a8f1d578afd233a506f8fd02f90306a7946f3c4abb2089889c081326d05a848caf9f495286aca11ff4aea2479fa
+
+
+### Get Product Detail
+GET {{url_dev}}/6847f86b261bdd676320d4b9
+Content-Type: application/json
+x-api-key: df0fa8e478e8149581b2994fd3f717422dbb7a8f1d578afd233a506f8fd02f90306a7946f3c4abb2089889c081326d05a848caf9f495286aca11ff4aea2479fa
+
+
+
+### Patch Update Product Clothes
+PATCH  {{url_dev}}/shop/product/6847f86b261bdd676320d4b9
+Content-Type: application/json
+x-api-key: df0fa8e478e8149581b2994fd3f717422dbb7a8f1d578afd233a506f8fd02f90306a7946f3c4abb2089889c081326d05a848caf9f495286aca11ff4aea2479fa
+x-client-id: 683d778c7c437e68030d237e
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODNkNzc4YzdjNDM3ZTY4MDMwZDIzN2UiLCJlbWFpbCI6ImFiY0oxQGdtYWlsLmNvbSIsImlhdCI6MTc0OTU0NzA5NSwiZXhwIjoxNzQ5NzE5ODk1fQ.Yil3oqD1mGrWQvaYosJ2RxWe6MLLnU5_gLJFLQAlWq0
+
+{
+  "product_name": "Macbook M3 Pro XXXX",
+  "product_price": 39999,
+  "product_quantity": 5,
+  "product_attributes": {
+    "color": "gold",
+    "manufacturer": "Apple",
+    "model": "MACM3PROXXX"
+  }
+}
+
+### Patch Update Product Funiture
+### Patch Update Product Electronic

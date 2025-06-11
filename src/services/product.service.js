@@ -3,6 +3,9 @@
 const { product, clothes, electronics, furnitures} = require('../models/product.model');
 const { BadRequestError } = require("../core/error.response");
 const productRepository = require('../repositories/product.repository');
+const clothesRepository = require('../repositories/clothes.repository');
+const electronicRepository = require('../repositories/electronic.repository');
+const furnitureRepository = require('../repositories/furniture.repository');
 
 
 class ProductFactory {
@@ -30,18 +33,18 @@ class ProductFactory {
         // }
     }
 
-    static async findListProductsDraftByShop({product_shop, skip = 0, limit = 50}) {
-        const query = { product_shop, isDraft: true }
+    static async findListProductsDraftByShop({productShop, skip = 0, limit = 50}) {
+        const query = { product_shop: productShop, isDraft: true }
         return await productRepository.getListProductsDraft({query, skip, limit})
     }
 
-    static async findListProductsPublishByShop({product_shop, skip = 0, limit = 50}) {
-        const query = { product_shop, isPublished: true }
+    static async findListProductsPublishByShop({productShop, skip = 0, limit = 50}) {
+        const query = { product_shop: productShop, isPublished: true }
         return await productRepository.getListProductsPublish({query, skip, limit})
     }
 
-    static async publishProductByShop({product_shop, product_id}) {
-        const product = productRepository.findProductByShopIdAndId({product_shop, product_id})
+    static async publishProductByShop({productShop, productId}) {
+        const product = await productRepository.findProductByShopIdAndId({productShop, productId})
         if(!product) {
             throw new BadRequestError("Error: Product Not Found")
         }
@@ -50,18 +53,17 @@ class ProductFactory {
         product.isPublished = true
 
         const { modifiedCount } = await productRepository.updateProductById(product)
-
         return { modifiedCount }
     }
 
-    static async unpublishProductByShop({product_shop, product_id}) {
-        const product = productRepository.findProductByShopIdAndId({product_shop, product_id})
+    static async unpublishProductByShop({productShop, productId}) {
+        const product = await productRepository.findProductByShopIdAndId({productShop, productId})
         if(!product) {
             throw new BadRequestError("Error: Product Not Found")
         }
         
-        product.isPublished = false
         product.isDraft = true
+        product.isPublished = false
 
         const { modifiedCount } = await productRepository.updateProductById(product)
         return { modifiedCount }
@@ -70,6 +72,28 @@ class ProductFactory {
     static async searchProductPublish({ keySearch }) {
         const regexSearch = new RegExp(keySearch)
         return await productRepository.getSearchProductPublish(regexSearch)
+    }
+
+    static async getAllProducts({ limit = 50, sort = 'ctime', page = 1, filter = {isPublished: true} }) {
+        return await productRepository.getAllProducts({
+            limit, sort, page, filter,
+            select: ['product_name', 'product_thumb', 'product_price']
+        })
+    }
+
+    static async getProductDetail({ productId }) {
+        return await productRepository.getProductById({ productId, unselect: ["__v", "product_variation"] })
+    }
+
+    static async updateProduct({productShop, productId, payload}) {
+        const product = await productRepository.findProductByShopIdAndId({productShop, productId})
+        if(!product) {
+            throw new BadRequestError("Error: Product Not Found")
+        }
+
+        const productClass = this.productRegister[product.product_type]
+
+        return new productClass(payload).updateProductByType(productId)
     }
 }
 
@@ -102,6 +126,13 @@ class Product {
             _id: product_id
         })  
     }
+
+    async updateProduct({ productId, productUpdate }) {
+        return await productRepository.findByIdAndUpdate({
+            productId: productId,
+            productUpdate: productUpdate
+        })
+    }
 }
 
 class Clothes extends Product {
@@ -121,6 +152,21 @@ class Clothes extends Product {
         }
 
         return newProduct
+    }
+
+    updateProductByType = async (productId) => {
+        if(this.product_attributes) {
+            await clothesRepository.updateClothesById({
+                productId: productId,
+                dataUpdate: this.product_attributes
+            })
+        }
+
+        const productUpdated = await super.updateProduct({
+            productId: productId,
+            productUpdate: this
+        })
+        return productUpdated
     }
 }
 
@@ -142,6 +188,21 @@ class Electronic extends Product {
 
         return newProduct
     }
+
+    updateProductByType = async (productId) => {        
+        if(this.product_attributes) {
+            await electronicRepository.updateElectronicById({
+                productId: productId,
+                dataUpdate: this.product_attributes
+            })
+        }
+
+        const productUpdated = await super.updateProduct({
+            productId: productId,
+            productUpdate: this
+        })
+        return productUpdated
+    }
 }
 
 class Furniture extends Product {
@@ -161,6 +222,21 @@ class Furniture extends Product {
         }
 
         return newProduct
+    }
+
+    updateProductByType = async (productId) => {
+        if(this.product_attributes) {
+            await furnitureRepository.updateFurnitureById({
+                productId: productId,
+                dataUpdate: this.product_attributes
+            })
+        }
+
+        const productUpdated = await super.updateProduct({
+            productId: productId,
+            productUpdate: this
+        })
+        return productUpdated
     }
 }
 

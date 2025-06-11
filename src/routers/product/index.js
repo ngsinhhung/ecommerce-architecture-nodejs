@@ -8,11 +8,14 @@ const productController = require('../../controllers/product.controller');
 
 const productRouter = express.Router()
 
-productRouter.get('/shop/product', asyncHandler(productController.getSearchProduct))
+productRouter.get('/product', asyncHandler(productController.getSearchProduct))
+productRouter.get('', asyncHandler(productController.getAllProducts))
+productRouter.get('/:productId', asyncHandler(productController.getProductDetail))
 
 productRouter.use(authentication)
 
 productRouter.post('/shop/product', asyncHandler(productController.createNewProduct))
+productRouter.patch('/shop/product/:productId', asyncHandler(productController.updateProduct))
 
 //Product Draft
 productRouter.get('/shop/product-draft', asyncHandler(productController.getListProductDraftByShop))
