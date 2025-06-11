@@ -80,6 +80,15 @@ class ProductController {
         }).send(res)
     }
 
+    getProductDetail = async (req, res, next) => {
+        new OKSuccessResponse({
+            message: "Get Product Detail Successfully",
+            metadata: await productFactory.getProductDetail({
+                product_id: req.params.productId,
+            })
+        }).send(res)
+    }
+
 }
 
 module.exports = new ProductController()

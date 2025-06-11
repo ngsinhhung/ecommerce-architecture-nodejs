@@ -18,8 +18,13 @@ const getSelectData = (select = []) => {
     return Object.fromEntries(select.map(item => [item, 1]))
 }
 
+const unselectData = (select = []) => {
+    return Object.fromEntries(select.map(item => [item, 0])) 
+}
+
 module.exports = {
     getInforShop,
     generatePairKey,
-    getSelectData
+    getSelectData,
+    unselectData
 };

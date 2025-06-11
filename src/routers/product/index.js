@@ -10,6 +10,7 @@ const productRouter = express.Router()
 
 productRouter.get('/product', asyncHandler(productController.getSearchProduct))
 productRouter.get('', asyncHandler(productController.getAllProducts))
+productRouter.get('/:productId', asyncHandler(productController.getProductDetail))
 
 productRouter.use(authentication)
 

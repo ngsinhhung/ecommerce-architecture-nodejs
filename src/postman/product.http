@@ -72,3 +72,8 @@ GET {{url_dev}}/
 Content-Type: application/json
 x-api-key: df0fa8e478e8149581b2994fd3f717422dbb7a8f1d578afd233a506f8fd02f90306a7946f3c4abb2089889c081326d05a848caf9f495286aca11ff4aea2479fa
 
+
+### Get Product Detail
+GET {{url_dev}}/6847f86b261bdd676320d4b9
+Content-Type: application/json
+x-api-key: df0fa8e478e8149581b2994fd3f717422dbb7a8f1d578afd233a506f8fd02f90306a7946f3c4abb2089889c081326d05a848caf9f495286aca11ff4aea2479fa

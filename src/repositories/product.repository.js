@@ -1,7 +1,7 @@
 'use strict'
 
 const { product, clothes, electronics, furnitures } = require("../models/product.model");
-const { getSelectData } = require("../utils");
+const { getSelectData, unselectData } = require("../utils");
 
 class ProductRepository {
 
@@ -46,6 +46,10 @@ class ProductRepository {
                                 .lean()
         
         return products
+    }
+
+    static async getProductById({ product_id, unselect }) {
+        return await product.findById(product_id).select(unselectData(unselect)).lean()
     }
 
     static async queryProduct({ query, skip, limit }) {

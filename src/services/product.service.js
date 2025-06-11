@@ -77,6 +77,10 @@ class ProductFactory {
             select: ['product_name', 'product_thumb', 'product_price']
         })
     }
+
+    static async getProductDetail({ product_id }) {
+        return await productRepository.getProductById({ product_id, unselect: ["__v", "product_variation"] })
+    }
 }
 
 
