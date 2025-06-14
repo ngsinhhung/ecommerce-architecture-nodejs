@@ -46,7 +46,7 @@ const authentication = asyncHandler( async (req, res, next) => {
 
     const keyStore = await keyTokenService.findKeyTokenByUserId(userId)
     if(!keyStore) {
-        throw new NotFoundError()
+        throw new NotFoundError("Error: Not Found Something")
     }
 
     if(req.headers[HEADER.REFRESHTOKEN]){
