@@ -21,7 +21,7 @@ class AccessService {
         const { email, userId } = user
 
         if(keyStore.refreshTokensUsed.includes(refreshToken)) {
-            await keyTokenService.deleteKeyTokenById(tokenUsed._id)
+            await keyTokenService.deleteKeyTokenById(keyStore._id)
             throw new ForbiddenError("Something when wrong! Please login again")
         }
 

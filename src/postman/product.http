@@ -27,7 +27,7 @@ GET {{url_dev}}/shop/product-draft
 Content-Type: application/json
 x-api-key: df0fa8e478e8149581b2994fd3f717422dbb7a8f1d578afd233a506f8fd02f90306a7946f3c4abb2089889c081326d05a848caf9f495286aca11ff4aea2479fa
 x-client-id: 683d778c7c437e68030d237e
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODNkNzc4YzdjNDM3ZTY4MDMwZDIzN2UiLCJlbWFpbCI6ImFiY0oxQGdtYWlsLmNvbSIsImlhdCI6MTc0OTU0NzA5NSwiZXhwIjoxNzQ5NzE5ODk1fQ.Yil3oqD1mGrWQvaYosJ2RxWe6MLLnU5_gLJFLQAlWq0
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODNkNzc4YzdjNDM3ZTY4MDMwZDIzN2UiLCJlbWFpbCI6ImFiY0oxQGdtYWlsLmNvbSIsImlhdCI6MTc0OTkwMTcxNiwiZXhwIjoxNzUwMDc0NTE2fQ.6UQyHogdqJIi3IR3mwq4cAeuyNsGVSB6EggBAFKFvEo
 
 {
   "skip": 0,
@@ -39,7 +39,7 @@ GET {{url_dev}}/shop/product-publish
 Content-Type: application/json
 x-api-key: df0fa8e478e8149581b2994fd3f717422dbb7a8f1d578afd233a506f8fd02f90306a7946f3c4abb2089889c081326d05a848caf9f495286aca11ff4aea2479fa
 x-client-id: 683d778c7c437e68030d237e
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODNkNzc4YzdjNDM3ZTY4MDMwZDIzN2UiLCJlbWFpbCI6ImFiY0oxQGdtYWlsLmNvbSIsImlhdCI6MTc0OTU0NzA5NSwiZXhwIjoxNzQ5NzE5ODk1fQ.Yil3oqD1mGrWQvaYosJ2RxWe6MLLnU5_gLJFLQAlWq0
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODNkNzc4YzdjNDM3ZTY4MDMwZDIzN2UiLCJlbWFpbCI6ImFiY0oxQGdtYWlsLmNvbSIsImlhdCI6MTc0OTkwMTcxNiwiZXhwIjoxNzUwMDc0NTE2fQ.6UQyHogdqJIi3IR3mwq4cAeuyNsGVSB6EggBAFKFvEo
 
 {
   "skip": 0,
@@ -47,7 +47,7 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODNkNzc4Yzdj
 }
 
 ### Publish Product
-PATCH  {{url_dev}}/shop/product-publish?productId=68496af2e84cc3ab479b42ef 
+PATCH  {{url_dev}}/shop/product-publish?productId=6847f774261bdd676320d4a8 
 Content-Type: application/json
 x-api-key: df0fa8e478e8149581b2994fd3f717422dbb7a8f1d578afd233a506f8fd02f90306a7946f3c4abb2089889c081326d05a848caf9f495286aca11ff4aea2479fa
 x-client-id: 683d778c7c437e68030d237e
@@ -63,7 +63,7 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODNkNzc4Yzdj
 
 
 ### Search Product
-GET {{url_dev}}/shop/product?search=a
+GET {{url_dev}}/product?search=m4
 Content-Type: application/json
 x-api-key: df0fa8e478e8149581b2994fd3f717422dbb7a8f1d578afd233a506f8fd02f90306a7946f3c4abb2089889c081326d05a848caf9f495286aca11ff4aea2479fa
 

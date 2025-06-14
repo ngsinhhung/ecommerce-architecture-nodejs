@@ -4,14 +4,28 @@ const express = require('express')
 const { apiKey, permission } = require('../auth/checkAuth');
 const router = express.Router()
 
+const access = require('./access')
+const product = require('./product');
+const { authentication } = require('../auth/auth');
+
 // check api key
 router.use(apiKey)
 
 // check permission
 router.use(permission('0000'))
 
-router.use('/v1/api', require('./product'))
-router.use('/v1/api', require('./access'))
+
+// publish router
+router.use('/v1/api', product.publishProductRouter)
+router.use('/v1/api', access.publishAccessRouter)
+
+//private router
+router.use(authentication)
+router.use('/v1/api', access.privateAccessRouter)
+router.use('/v1/api', product.privateProductRouter)
+
+// router.use('/v1/api', require('./product'))
+// router.use('/v1/api', require('./access'))
 
 
 // router.get('/', (req, res, next) => {
