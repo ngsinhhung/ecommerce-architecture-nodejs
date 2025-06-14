@@ -1,0 +1,36 @@
+@url_dev = http://localhost:3055/v1/api
+
+### Create New Discount
+POST {{url_dev}}/shop/discount
+Content-Type: application/json
+x-api-key: df0fa8e478e8149581b2994fd3f717422dbb7a8f1d578afd233a506f8fd02f90306a7946f3c4abb2089889c081326d05a848caf9f495286aca11ff4aea2479fa
+x-client-id: 683d778c7c437e68030d237e
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODNkNzc4YzdjNDM3ZTY4MDMwZDIzN2UiLCJlbWFpbCI6ImFiY0oxQGdtYWlsLmNvbSIsImlhdCI6MTc0OTkwNzM4NiwiZXhwIjoxNzUwMDgwMTg2fQ.nK4Gy4xOAE82RYlGsAoz-30W6Pv7SuIq7kvKVofwjN4
+
+# {
+#   "discount_name": "Summer Sale",
+#   "discount_code": "summer2024",      
+#   "discount_type": "percentage",    
+#   "discount_value": 10,              
+#   "discount_end_date": "2024-06-01",  
+#   "discount_start_date": "2024-01-01",
+#   "discount_max_used_per_user": -1,   
+#   "discount_appliable_to": "unknown",
+#   "discount_is_active": true 
+# }
+
+{
+  "discount_name": "Summer Sale",
+  "discount_code": "SUMMER2025",
+  "discount_description": "20% off for all items",
+  "discount_type": "percentage",
+  "discount_value": 20,
+  "discount_min_order_amount": 100,
+  "discount_max_amount": 200,
+  "discount_start_date": "2025-07-01T00:00:00.000Z",
+  "discount_end_date": "2025-07-31T00:00:00.000Z",
+  "discount_usage_limit": 500,
+  "discount_is_active": true,
+  "discount_max_used_per_user": 2,
+  "discount_appliable_to": "all"
+}

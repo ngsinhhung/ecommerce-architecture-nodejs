@@ -4,11 +4,12 @@ const express = require('express')
 const { apiKey, permission } = require('../auth/checkAuth');
 const router = express.Router()
 
+const { authentication } = require('../auth/auth');
 const access = require('./access')
 const product = require('./product');
-const { authentication } = require('../auth/auth');
+const discount = require('./discount')
 
-// check api key
+// check api keyconst access = require('./access')
 router.use(apiKey)
 
 // check permission
@@ -23,6 +24,7 @@ router.use('/v1/api', access.publishAccessRouter)
 router.use(authentication)
 router.use('/v1/api', access.privateAccessRouter)
 router.use('/v1/api', product.privateProductRouter)
+router.use('/v1/api', discount.privateDiscountRouter)
 
 // router.use('/v1/api', require('./product'))
 // router.use('/v1/api', require('./access'))

@@ -39,6 +39,7 @@ const createTokenPair = async ( payload, publicKey, privateKey ) => {
 }
 
 const authentication = asyncHandler( async (req, res, next) => {
+    console.log(req);
     const userId = req.headers[HEADER.CLIENT_ID]?.toString()
     if (!userId){
         throw new UnauthorizedError("Error: Invalid Request")
