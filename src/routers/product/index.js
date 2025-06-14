@@ -6,23 +6,23 @@ const { authentication } = require('../../auth/auth');
 const productController = require('../../controllers/product.controller');
 
 
-const productRouter = express.Router()
+const publishProductRouter = express.Router()
+const privateProductRouter = express.Router()
 
-productRouter.get('/product', asyncHandler(productController.getSearchProduct))
-productRouter.get('', asyncHandler(productController.getAllProducts))
-productRouter.get('/:productId', asyncHandler(productController.getProductDetail))
+publishProductRouter.get('', asyncHandler(productController.getAllProducts))
+publishProductRouter.get('/product', asyncHandler(productController.getSearchProduct))
+publishProductRouter.get('/:productId', asyncHandler(productController.getProductDetail))
 
-productRouter.use(authentication)
 
-productRouter.post('/shop/product', asyncHandler(productController.createNewProduct))
-productRouter.patch('/shop/product/:productId', asyncHandler(productController.updateProduct))
+privateProductRouter.post('/shop/product', asyncHandler(productController.createNewProduct))
+privateProductRouter.patch('/shop/product/:productId', asyncHandler(productController.updateProduct))
 
 //Product Draft
-productRouter.get('/shop/product-draft', asyncHandler(productController.getListProductDraftByShop))
+privateProductRouter.get('/shop/product-draft', asyncHandler(productController.getListProductDraftByShop))
 
 //Product Publish
-productRouter.get('/shop/product-publish', asyncHandler(productController.getListProductPublishByShop))
-productRouter.patch('/shop/product-publish', asyncHandler(productController.publishProductByShop))
-productRouter.patch('/shop/product-unpublish', asyncHandler(productController.unpublishProductByShop))
+privateProductRouter.get('/shop/product-publish', asyncHandler(productController.getListProductPublishByShop))
+privateProductRouter.patch('/shop/product-publish', asyncHandler(productController.publishProductByShop))
+privateProductRouter.patch('/shop/product-unpublish', asyncHandler(productController.unpublishProductByShop))
 
-module.exports = productRouter
+module.exports = {publishProductRouter, privateProductRouter}
