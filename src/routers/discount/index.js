@@ -12,5 +12,6 @@ const privateDiscountRouter = express.Router()
 
 
 privateDiscountRouter.post('/shop/discount', validationMiddleware(createDiscountSchema), asyncHandler(discountController.createNewDiscount))
+privateDiscountRouter.put('/shop/discount', validationMiddleware(createDiscountSchema), asyncHandler(discountController.updateDiscount))
 
 module.exports = {privateDiscountRouter}
