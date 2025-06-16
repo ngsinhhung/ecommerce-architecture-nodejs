@@ -1,6 +1,6 @@
 'use strict'
 
-const { CreatedSuccessResponse, OKSuccessResponse } = require("../core/success.response")
+const { CreatedSuccessResponse, OKSuccessResponse, NoContentSuccessResponse } = require("../core/success.response")
 const discountService = require("../services/discount.service")
 
 class DiscountController {
@@ -22,6 +22,16 @@ class DiscountController {
                 userId: req.user.userId,
                 discountId: req.query.discountId,
                 payload: req.body
+            })
+        }).send(res)
+    }
+
+    deleteDiscount = async(req, res, next) => {
+        new NoContentSuccessResponse({
+            message: "Discount Delete Successfully",
+            metadata: await discountService.deleteDiscountByShop({
+                userId: req.user.userId,
+                discountId: req.query.discountId,
             })
         }).send(res)
     }

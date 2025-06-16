@@ -22,6 +22,10 @@ class DiscountRepository {
         return await discountModel.findOneAndUpdate({ _id: new Types.ObjectId(discountId) }, payload, {new: true}).lean()
     }
 
+    static async deleteDiscount(discountId) {
+        return await discountModel.deleteOne({_id: new Types.ObjectId(discountId)})
+    }
+
 }
 
 module.exports = DiscountRepository

@@ -22,6 +22,18 @@ class DiscountService {
         return await discountRepository.updateDiscount({discountId, payload})
     }
 
+    static async deleteDiscountByShop({userId, discountId}) {
+        const discount = await discountRepository.findByIdAndShopId({shopId: userId, discountId: discountId})
+        if(!discount) {
+            throw new BadRequestError("Error: Discount NOT FOUND")
+        }
+
+        const { deleteCount } = await discountRepository.deleteDiscount(discount._id)
+
+
+        return { deleteCount }
+    }
+
     static vadidateDiscount(discount) {
         if(!checkDateBeforeDate(discount.discount_start_date, discount.discount_end_date)){
             throw new BadRequestError("Error: Invalid Request")
