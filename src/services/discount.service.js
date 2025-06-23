@@ -7,10 +7,19 @@ const discountRepository = require("../repositories/discount.repository")
 class DiscountService {
 
     static async createNewDiscount(payload) {
-        if(this.vadidateDiscount(payload)) {
-            return await discountRepository.createDiscount(payload)
+        const discount = await discountRepository.findByDiscountCodeAndShopId({
+            discountCode:payload.discount_code,
+            shopId: payload.discount_by_shopId
+        })
+
+        if(discount) {
+            throw new BadRequestError("Error: Discount Code Readly Exist")
         }
-        throw new BadRequestError("Error: Invalid Request")
+
+        if(!this.vadidateDiscount(payload)) {
+            throw new BadRequestError("Error: Discount Invalid Request")
+        }
+        return await discountRepository.createDiscount(payload)
     }
 
     static async updateDiscountByShop({userId, discountId, payload}) {

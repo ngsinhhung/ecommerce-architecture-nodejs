@@ -15,7 +15,6 @@ var discountSchema = Schema({
     discount_code: {
         type: String,
         required: true,
-        unique: true,
         uppercase: true,
         trim: true,
     },

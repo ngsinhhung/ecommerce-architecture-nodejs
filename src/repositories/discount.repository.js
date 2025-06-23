@@ -6,11 +6,17 @@ const discountModel = require("../models/discount.model")
 
 
 class DiscountRepository {
+    static async findByDiscountCodeAndShopId({shopId, discountCode}) {
+        return await discountModel.findOne({
+            discount_by_shopId: new Types.ObjectId(shopId),
+            discount_code: discountCode
+        }).lean()
+    }
 
     static async findByIdAndShopId({shopId, discountId}) {
         return await discountModel.findOne({
             _id: new Types.ObjectId(discountId),
-            discount_by_shopId: shopId
+            discount_by_shopId: new Types.ObjectId(shopId)
         }).lean()
     }
 
