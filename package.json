@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node --watch server.js"
+    "dev": "node --watch server.js",
+    "swagger": "node src/swagger.js"
   },
   "repository": {
     "type": "git",
@@ -24,7 +25,8 @@
     "joi": "^17.13.3",
     "lodash": "^4.17.21",
     "mongoose": "^8.15.1",
-    "slugify": "^1.6.6"
+    "slugify": "^1.6.6",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "bcrypt": "^6.0.0",
@@ -33,6 +35,7 @@
     "dotenv": "^16.5.0",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "swagger-autogen": "^2.23.7"
   }
 }
