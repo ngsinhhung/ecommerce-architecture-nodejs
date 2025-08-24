@@ -4,6 +4,11 @@ const helmet = require('helmet');
 const compression = require('compression');
 const app = express();
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger-output.json');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 // init middleware
 app.use(morgan('dev'));
 app.use(helmet())
@@ -17,6 +22,7 @@ app.use(express.urlencoded({
 require('./dbs/init.mongodb')
 const { checkOverloadConnect } = require('./helpers/check.connect')
 checkOverloadConnect()
+
 // init router
 app.use('', require('./routers'))
 
