@@ -6,6 +6,7 @@ const productRepository = require('../repositories/product.repository');
 const clothesRepository = require('../repositories/clothes.repository');
 const electronicRepository = require('../repositories/electronic.repository');
 const furnitureRepository = require('../repositories/furniture.repository');
+const inventoryService = require('./inventory.service');
 
 
 class ProductFactory {
@@ -121,10 +122,20 @@ class Product {
     }
 
     async createNewProduct( product_id ) {
-        return await product.create({
+        const productCreated = await product.create({
             ...this,
             _id: product_id
-        })  
+        })
+
+        if(productCreated) {
+            inventoryService.createProductInventory({
+                productId: productCreated._id,
+                shopId: this.product_shop,
+                stock: this.product_quantity
+            }) 
+        }
+
+        return productCreated
     }
 
     async updateProduct({ productId, productUpdate }) {

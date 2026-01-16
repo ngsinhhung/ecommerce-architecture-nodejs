@@ -8,7 +8,7 @@ x-client-id: 683d778c7c437e68030d237e
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODNkNzc4YzdjNDM3ZTY4MDMwZDIzN2UiLCJlbWFpbCI6ImFiY0oxQGdtYWlsLmNvbSIsImlhdCI6MTc0OTU0NzA5NSwiZXhwIjoxNzQ5NzE5ODk1fQ.Yil3oqD1mGrWQvaYosJ2RxWe6MLLnU5_gLJFLQAlWq0
 
 {
-  "product_name": "Macbook M2 Pro MAxxxxxx",
+  "product_name": "Macbook M4 Pro MAxxxxxx",
   "product_thumb": "https://example.com/images/wireless-mouse-macm2.jpg",
   "product_description": "A sleek wireless mouse with ergonomic design and long battery life.",
   "product_price": 1999,
